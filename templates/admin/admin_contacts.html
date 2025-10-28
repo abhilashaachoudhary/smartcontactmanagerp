@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Contacts - Contact Manager{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card shadow admin-card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="m-0"><i class="fas fa-address-book me-2"></i>Manage Contacts</h3>
+                <a href="{{ url_for('admin_add_contact') }}" class="btn btn-success">
+                    <i class="fas fa-plus me-2"></i>Add New Contact
+                </a>
+            </div>
+            <div class="card-body">
+                <!-- Search & Filter -->
+                <div class="row mb-4">
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="contactSearch" placeholder="Search contacts...">
+                            <button class="btn btn-outline-secondary" type="button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-select" id="contactFilter">
+                            <option value="">All Owners</option>
+                            {% for user in users %}
+                                <option value="{{ user.username }}">{{ user.username }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Contacts Table -->
+                <div class="table-responsive">
+                    <table class="table table-hover admin-table" id="contactsTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Description</th>
+                                <th>Owner</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for contact in contacts %}
+                            <tr>
+                                <td>{{ contact.id }}</td>
+                                <td>{{ contact.name }}</td>
+                                <td>{{ contact.email }}</td>
+                                <td>{{ contact.phone }}</td>
+                                <td>
+                                    {% if contact.description %}
+                                        {{ contact.description|truncate(50) }}
+                                    {% else %}
+                                        <em class="text-muted">No description</em>
+                                    {% endif %}
+                                </td>
+                                <td class="owner-cell">
+                                    {% set owner = users|selectattr('id', 'equalto', contact.user_id)|first %}
+                                    {% if owner %}
+                                        <span class="badge bg-info">{{ owner.username }}</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Unknown</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a href="{{ url_for('admin_edit_contact', id=contact.id) }}" class="btn btn-primary btn-sm" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="{{ url_for('admin_delete_contact', id=contact.id) }}" class="btn btn-danger btn-sm" title="Delete"
+                                           onclick="return confirm('Are you sure you want to delete this contact?')">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- No Contacts Message -->
+                {% if contacts|length == 0 %}
+                <div class="alert alert-info text-center">
+                    <i class="fas fa-info-circle me-2"></i> No contacts found.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Simple search and filter functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('contactSearch');
+        const filterSelect = document.getElementById('contactFilter');
+        const table = document.getElementById('contactsTable');
+        const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+        
+        function filterTable() {
+            const searchText = searchInput.value.toLowerCase();
+            const filterValue = filterSelect.value.toLowerCase();
+            
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                const name = row.cells[1].textContent.toLowerCase();
+                const email = row.cells[2].textContent.toLowerCase();
+                const phone = row.cells[3].textContent.toLowerCase();
+                const owner = row.querySelector('.owner-cell').textContent.toLowerCase();
+                
+                const matchesSearch = name.includes(searchText) || 
+                                     email.includes(searchText) || 
+                                     phone.includes(searchText);
+                                     
+                const matchesFilter = filterValue === '' || owner.includes(filterValue);
+                
+                row.style.display = (matchesSearch && matchesFilter) ? '' : 'none';
+            }
+        }
+        
+        searchInput.addEventListener('keyup', filterTable);
+        filterSelect.addEventListener('change', filterTable);
+    });
+</script>
+{% endblock %}

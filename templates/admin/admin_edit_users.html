@@ -1,0 +1,47 @@
+# admin_edit_user.html
+{% extends 'base.html' %}
+
+{% block title %}Edit User{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Edit User</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('admin_edit_user', id=user.id) }}">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" value="{{ user.username }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Role</label>
+                            <select class="form-select" id="role" name="role">
+                                <option value="user" {% if user.role == 'user' %}selected{% endif %}>User</option>
+                                <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Admin</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="is_verified" name="is_verified" {% if user.is_verified %}checked{% endif %}>
+                            <label class="form-check-label" for="is_verified">Email Verified</label>
+                        </div>
+                        <div class="mb-3">
+                            <label for="new_password" class="form-label">New Password (Leave blank to keep current)</label>
+                            <input type="password" class="form-control" id="new_password" name="new_password">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update User</button>
+                        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-link">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Verify Email{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3 text-center">
+            <div class="card">
+                <div class="card-body">
+                    {% if success %}
+                        <i class="fas fa-check-circle text-success fa-5x mb-3"></i>
+                        <h2>Email Verified!</h2>
+                        <p class="lead">Your email has been successfully verified.</p>
+                        <a href="{{ url_for('login') }}" class="btn btn-primary">Login Now</a>
+                    {% else %}
+                        <i class="fas fa-times-circle text-danger fa-5x mb-3"></i>
+                        <h2>Verification Failed</h2>
+                        <p class="lead">{{ message }}</p>
+                        <a href="{{ url_for('resend_verification') }}" class="btn btn-primary">Resend Verification</a>
+                        <a href="{{ url_for('index') }}" class="btn btn-link">Return to Home</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

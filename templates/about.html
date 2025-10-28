@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="text-center mb-10">
+        <h1 class="text-4xl font-bold text-gray-800">About Smart Contact Manager</h1>
+        <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
+            A secure and user-friendly contact management system built with Flask, offering seamless authentication, email verification, and role-based access for both users and administrators.
+        </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8">
+        <div>
+            <h2 class="text-2xl font-semibold text-blue-700 mb-4">Key Features</h2>
+            <ul class="list-disc list-inside text-gray-700">
+                <li>Dynamic registration with email verification</li>
+                <li>Role-based dashboards for Admin and Users</li>
+                <li>Google and GitHub OAuth login support</li>
+                <li>Secure password hashing and session management</li>
+                <li>Admin access to create, update, and delete contacts</li>
+            </ul>
+        </div>
+
+        <div>
+            <h2 class="text-2xl font-semibold text-blue-700 mb-4">Why This Project?</h2>
+            <p class="text-gray-700">
+                This project is inspired by Spring Boot Security principles and built using Python Flask to demonstrate a robust full-stack web application. It showcases real-world practices like user role segregation, CRUD operations, and third-party authentication integration.
+            </p>
+            <p class="text-gray-700 mt-4">
+                Ideal for learning secure web development practices, this project is scalable and can be extended into a full-fledged CRM or integrated into larger applications.
+            </p>
+        </div>
+    </div>
+
+    <div class="mt-12 text-center">
+        <h2 class="text-xl font-semibold text-gray-800">Meet the Developer</h2>
+        <p class="text-gray-600 mt-2">
+            Developed as part of an MTech project to demonstrate secure user access, contact management, and full-stack development using Python, Flask, and OAuth.
+        </p>
+    </div>
+</div>
+{% endblock %}

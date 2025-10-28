@@ -1,0 +1,13 @@
+your_project_folder/
+│
+├── main.py
+├── static/
+│   └── uploads/  # This will be created automatically by the code
+└── templates/
+    ├── landing.html
+    ├── login.html
+    ├── register.html
+    ├── user_dashboard.html
+    ├── admin_dashboard.html
+    ├── add_contact.html
+    └── edit_contact.html
