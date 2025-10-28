@@ -90,4 +90,4 @@ python-dotenv==1.0.1
 
 . Start the app:
    ```bash
-   python main.py
+   python app1.py
